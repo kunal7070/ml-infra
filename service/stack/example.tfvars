@@ -24,3 +24,6 @@ extra_linux_users = [
 ]
 
 extra_linux_users_passwordless_sudo = true
+
+create_ssm_associations      = false
+association_schedule_expression = null

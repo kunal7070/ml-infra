@@ -1,130 +1,142 @@
-variable "name_prefix" {
-  description = "Prefix used for naming resources."
+variable "region" {
   type        = string
+  description = "AWS region."
+}
+
+variable "name_prefix" {
+  type        = string
+  description = "Prefix for resource naming."
 }
 
 variable "environment" {
-  description = "Environment name, such as dev, stage, demo."
   type        = string
-}
-
-variable "region" {
-  description = "AWS region."
-  type        = string
+  description = "Environment name."
 }
 
 variable "vpc_id" {
-  description = "VPC ID where the jump host will be created."
   type        = string
+  description = "VPC ID where the jump host will be deployed."
 }
 
 variable "subnet_id" {
-  description = "Subnet ID where the jump host will be created."
   type        = string
+  description = "Subnet ID where the jump host will be deployed."
 }
 
 variable "ami_id" {
-  description = "AMI ID for the Linux jump host."
   type        = string
+  description = "AMI ID for the Linux jump host."
 }
 
 variable "instance_type" {
-  description = "Instance type for the jump host."
   type        = string
+  description = "EC2 instance type."
   default     = "t3.small"
 }
 
 variable "associate_public_ip_address" {
-  description = "Whether to associate a public IP."
   type        = bool
+  description = "Whether to associate a public IP."
   default     = false
 }
 
 variable "root_volume_size" {
-  description = "Root volume size in GiB."
   type        = number
+  description = "Root volume size in GiB."
   default     = 30
 }
 
 variable "root_volume_type" {
-  description = "Root volume type."
   type        = string
+  description = "Root volume type."
   default     = "gp3"
 }
 
 variable "kms_key_id" {
-  description = "Optional KMS key ID for EBS encryption."
   type        = string
+  description = "Optional KMS key ID for EBS encryption."
   default     = null
 }
 
 variable "create_security_group" {
-  description = "Whether to create a dedicated security group in this module."
   type        = bool
+  description = "Whether to create a dedicated SG in this stack."
   default     = false
 }
 
 variable "security_group_ids" {
-  description = "Existing security group IDs to attach to the jump host."
   type        = list(string)
+  description = "Existing approved security groups to attach."
   default     = []
 }
 
 variable "egress_cidrs" {
-  description = "Controlled egress CIDRs to use only when create_security_group = true."
   type        = list(string)
+  description = "Controlled egress CIDRs used only if create_security_group = true."
   default     = []
 }
 
 variable "cluster_names" {
-  description = "List of EKS cluster names this jump host should process."
   type        = list(string)
+  description = "List of EKS clusters this jump host should process."
   default     = []
 }
 
 variable "create_instance_role" {
-  description = "Whether to create the EC2 IAM role/profile for the jump host."
   type        = bool
+  description = "Whether to create the EC2 IAM role/profile for the jump host."
   default     = true
 }
 
 variable "existing_instance_profile_name" {
-  description = "Existing instance profile name when create_instance_role is false."
   type        = string
+  description = "Existing instance profile name when create_instance_role is false."
   default     = null
 }
 
 variable "additional_instance_policy_json" {
-  description = "Optional additional inline policy JSON for the jump host role."
   type        = string
+  description = "Optional additional inline policy JSON for the jump host role."
   default     = null
 }
 
 variable "create_ssm_documents" {
-  description = "Whether to create the EKS SSM documents."
   type        = bool
+  description = "Whether to create the EKS SSM documents."
   default     = true
 }
 
-variable "ssm_target_tag_key" {
-  description = "Tag key used by ServiceNow/SSM to target the jump host."
+variable "create_ssm_associations" {
+  type        = bool
+  description = "Whether to create SSM associations."
+  default     = false
+}
+
+variable "association_schedule_expression" {
   type        = string
+  description = "Optional schedule expression for SSM associations."
+  default     = null
+}
+
+variable "ssm_target_tag_key" {
+  type        = string
+  description = "Target tag key used by ServiceNow/SSM."
   default     = "ServiceNowTarget"
 }
 
 variable "ssm_target_tag_value" {
-  description = "Tag value used by ServiceNow/SSM to target the jump host."
   type        = string
+  description = "Target tag value used by ServiceNow/SSM."
 }
 
 variable "extra_linux_users" {
-  description = "Additional local Linux users to create on the jump host."
   type        = list(string)
+  description = "Additional local Linux users to create."
   default     = []
 }
 
 variable "extra_linux_users_passwordless_sudo" {
-  description = "Whether extra Linux users should get passwordless sudo."
   type        = bool
+  description = "Whether extra Linux users should get passwordless sudo."
   default     = false
 }

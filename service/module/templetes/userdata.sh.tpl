@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-exec > >(tee /var/log/servicenow-eks-jumphost-userdata.log | logger -t user-data -s 2>/dev/console) 2>&1
+exec > >(tee /var/log/servicenow-eks-discovery-host-userdata.log | logger -t user-data -s 2>/dev/console) 2>&1
 
 mkdir -p /opt/servicenow
 mkdir -p /home/ssm-user/.kube || true

@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.region
+}
+
 resource "aws_instance" "jump_host" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
@@ -31,11 +35,11 @@ resource "aws_instance" "jump_host" {
   })
 
   tags = {
-    Name                      = local.instance_name
-    environment               = var.environment
-    service                   = "servicenow"
-    component                 = "eks-jumphost"
-    servicenow_discovery      = "true"
+    Name                        = local.instance_name
+    environment                 = var.environment
+    service                     = "servicenow"
+    component                   = "eks-discovery-host"
+    servicenow_discovery        = "true"
     "${var.ssm_target_tag_key}" = var.ssm_target_tag_value
   }
 }

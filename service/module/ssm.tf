@@ -43,3 +43,27 @@ resource "aws_ssm_document" "eks_kubectl" {
     ]
   })
 }
+
+resource "aws_ssm_association" "eks_names" {
+  count = var.create_ssm_documents && var.create_ssm_associations ? 1 : 0
+  name  = aws_ssm_document.eks_names[0].name
+
+  targets {
+    key    = "tag:${var.ssm_target_tag_key}"
+    values = [var.ssm_target_tag_value]
+  }
+
+  schedule_expression = var.association_schedule_expression
+}
+
+resource "aws_ssm_association" "eks_kubectl" {
+  count = var.create_ssm_documents && var.create_ssm_associations ? 1 : 0
+  name  = aws_ssm_document.eks_kubectl[0].name
+
+  targets {
+    key    = "tag:${var.ssm_target_tag_key}"
+    values = [var.ssm_target_tag_value]
+  }
+
+  schedule_expression = var.association_schedule_expression
+}
